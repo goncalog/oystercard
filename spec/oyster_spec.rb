@@ -1,4 +1,4 @@
-require "./lib/oyster"
+require "oyster"
 
 describe Oyster do
 
