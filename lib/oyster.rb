@@ -1,39 +1,37 @@
 class Oyster
-  
+
   MAX_BALANCE = 90
   MIN_FARE = 1
-  attr_reader :balance, :in_use
+  attr_reader :balance, :entry_station, :journey_history
 
   def initialize
     @balance = 0
-    @in_use = false
+    @entry_station = nil
+    @journey_history = []
   end
-
 
   def top_up(money)
     fail "Oh no! You reached the max balance" if money + balance > MAX_BALANCE
     @balance = @balance + money
   end
 
-  
-  def touch_in
+  def touch_in(entry_station)
     raise "Ops! Top it up!" if balance < MIN_FARE
-    @in_use = true
-  end
-  
-  def touch_out
-    deduct(MIN_FARE)
-    @in_use = false
-  end
-  
-  def in_journey?
-    @in_use
+    @entry_station = entry_station
   end
 
-  # private
+  def touch_out(exit_station)
+    deduct(MIN_FARE)
+    @journey_history.push({entry: @entry_station, exit: exit_station})
+    @entry_station = nil
+  end
+
+  def in_journey?
+    @entry_station != nil
+  end
 
   def deduct(money)
-  @balance -= money
+    @balance -= money
   end
 
 end
