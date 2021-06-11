@@ -18,7 +18,7 @@ class Journey
     @oystercard.deduct(MIN_FARE)
     entry_station = @entry_station
     @entry_station = nil
-    @oystercard.journey_history.push({entry: entry_station, exit: exit_station})
+    {entry: entry_station, exit: exit_station}
   end
 
   def in_journey?

@@ -4,6 +4,7 @@ class JourneyLog
     @journey_class = journey_class
     @oystercard = oystercard
     @current_journey = nil
+    @journey_history = []
   end
 
   def start(entry_station)
@@ -12,7 +13,13 @@ class JourneyLog
   end
 
   def finish(exit_station)
-    @current_journey.touch_out(exit_station)
+    @current_journey = @current_journey.touch_out(exit_station)
+    @journey_history << @current_journey
+    @current_journey = nil
+  end
+
+  def journeys
+    @journey_history
   end
 
   private
