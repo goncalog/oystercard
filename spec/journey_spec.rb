@@ -53,10 +53,43 @@ describe Journey do
   end
 
   describe "#fare" do
-    it "returns the correct the fare" do
-      expect(journey.fare(entry_station, exit_station)).to eq Journey::MIN_FARE
-      expect(journey.fare(nil, exit_station)).to eq Journey::PENALTY_FARE
-      expect(journey.fare(entry_station, nil)).to eq Journey::PENALTY_FARE
+    context "when there's a penalty" do
+      it "returns the correct the fare" do
+        expect(journey.fare(nil, exit_station)).to eq Journey::PENALTY_FARE
+        expect(journey.fare(entry_station, nil)).to eq Journey::PENALTY_FARE
+      end
     end
+
+    context "when there's no penalty" do
+      it "returns the correct the fare for same zone" do
+        allow(entry_station).to receive(:zone) { 2 }
+        allow(exit_station).to receive(:zone) { 2 }
+        expect(journey.fare(entry_station, exit_station)).to eq Journey::MIN_FARE
+      end
+
+      it "returns the correct the fare from zone 1 to 2" do
+        allow(entry_station).to receive(:zone) { 1 }
+        allow(exit_station).to receive(:zone) { 2 }
+        expect(journey.fare(entry_station, exit_station)).to eq (Journey::MIN_FARE + 1)
+      end
+
+      it "returns the correct the fare from zone 2 to 1" do
+        allow(entry_station).to receive(:zone) { 2 }
+        allow(exit_station).to receive(:zone) { 1 }
+        expect(journey.fare(entry_station, exit_station)).to eq (Journey::MIN_FARE + 1)
+      end
+
+      it "returns the correct the fare from zone 2 to 4" do
+        allow(entry_station).to receive(:zone) { 2 }
+        allow(exit_station).to receive(:zone) { 4 }
+        expect(journey.fare(entry_station, exit_station)).to eq (Journey::MIN_FARE + 2)
+      end
+
+      it "returns the correct the fare from zone 5 to 1" do
+        allow(entry_station).to receive(:zone) { 5 }
+        allow(exit_station).to receive(:zone) { 1 }
+        expect(journey.fare(entry_station, exit_station)).to eq (Journey::MIN_FARE + 4)
+      end
+    end    
   end
 end
