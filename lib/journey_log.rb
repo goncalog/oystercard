@@ -11,6 +11,10 @@ class JourneyLog
     @current_journey.touch_in(entry_station)
   end
 
+  def finish(exit_station)
+    @current_journey.touch_out(exit_station)
+  end
+
   private
   def current_journey
     if @current_journey == nil
