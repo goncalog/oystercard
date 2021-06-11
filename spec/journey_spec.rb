@@ -1,8 +1,8 @@
 require 'journey'
 
 describe Journey do
-  let(:entry_station) { double :entry_station }
-  let(:exit_station) { double :exit_station }
+  let(:entry_station) { double :entry_station, zone: 2 }
+  let(:exit_station) { double :exit_station, zone: 2 }
   let(:card) { Oyster.new }
   let(:journey) { Journey.new(card) }
   
@@ -27,7 +27,7 @@ describe Journey do
       end
 
       it "charges the card when you touch out" do
-        expect{ journey.touch_out(exit_station) }.to change(card, :balance).by(-1)
+        expect{ journey.touch_out(exit_station) }.to change(card, :balance).by(-6) # PENALTY_FARE
       end
   end
 

@@ -15,7 +15,7 @@ class Journey
   end
 
   def touch_out(exit_station)
-    @oystercard.deduct(MIN_FARE)
+    @oystercard.deduct(fare(entry_station, exit_station))
     entry_station = @entry_station
     @entry_station = nil
     {entry: entry_station, exit: exit_station}

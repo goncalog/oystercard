@@ -4,8 +4,8 @@ require 'journey_log'
 
     let(:card) { Oyster.new }
     let(:journey_log) { JourneyLog.new(card) }
-    let(:entry_station) { double :station }
-    let(:exit_station) { double :station }
+    let(:entry_station) { double :station, zone: 2 }
+    let(:exit_station) { double :station, zone: 2 }
 
     describe '#start' do
       it 'starts a new journey with an entry station' do
@@ -29,10 +29,13 @@ require 'journey_log'
     
     it "can record history of journeys" do
       card.top_up(10)
-      journey_log.start("Angel")
-      journey_log.finish("Elephant and Castle")
-      journey_log.start("Royal Docks")
-      journey_log.finish("Liverpool Street")
-      expect(journey_log.journeys).to eq [{entry: "Angel", exit: "Elephant and Castle"}, {entry: "Royal Docks", exit: "Liverpool Street"}]
+      journey_log.start(entry_station)
+      journey_log.finish(exit_station)
+      journey_log.start(exit_station)
+      journey_log.finish(entry_station)
+      expect(journey_log.journeys).to eq [
+          {entry: entry_station, exit: exit_station}, 
+          {entry: exit_station, exit: entry_station},
+        ]
     end
   end
