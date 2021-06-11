@@ -1,13 +1,22 @@
 class JourneyLog
 
-  def initialize(journey_class = Journey, oystercard)
+  def initialize(oystercard, journey_class = Journey)
     @journey_class = journey_class
     @oystercard = oystercard
+    @current_journey = nil
   end
 
   def start(entry_station)
-    current_journey = @journey_class.new(@oystercard)
-    current_journey.touch_in(entry_station)
+    @current_journey = current_journey
+    @current_journey.touch_in(entry_station)
   end
 
+  private
+  def current_journey
+    if @current_journey == nil
+      @journey_class.new(@oystercard)
+    else 
+      @current_journey
+    end
+  end
 end
