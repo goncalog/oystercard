@@ -1,7 +1,6 @@
 class Oyster
 
   MAX_BALANCE = 90
-  MIN_FARE = 1
   attr_reader :balance, :journey_history
 
   def initialize
