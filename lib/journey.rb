@@ -1,4 +1,6 @@
 class Journey
+
+  MIN_FARE = 1
   attr_reader :entry_station
 
   def initialize(oystercard)
@@ -7,12 +9,12 @@ class Journey
   end
 
   def touch_in(entry_station)
-    raise "Ops! Top it up!" if @oystercard.balance < Oyster::MIN_FARE
+    raise "Ops! Top it up!" if @oystercard.balance < MIN_FARE
     @entry_station = entry_station
   end
 
   def touch_out(exit_station)
-    @oystercard.deduct(Oyster::MIN_FARE)
+    @oystercard.deduct(MIN_FARE)
     @oystercard.journey_history.push({entry: @entry_station, exit: exit_station})
     @entry_station = nil
   end
@@ -22,6 +24,6 @@ class Journey
   end
 
   def fare(entry_station , exit_station)
-    (entry_station == nil || exit_station == nil) ? 6 : 1
+    (entry_station == nil || exit_station == nil) ? 6 : MIN_FARE
   end
 end
