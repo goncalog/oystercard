@@ -54,9 +54,9 @@ describe Journey do
 
   describe "#fare" do
     it "returns the correct the fare" do
-      expect(journey.fare(entry_station, exit_station)).to eq 1
-      expect(journey.fare(nil, exit_station)).to eq 6
-      expect(journey.fare(entry_station, nil)).to eq 6
+      expect(journey.fare(entry_station, exit_station)).to eq Journey::MIN_FARE
+      expect(journey.fare(nil, exit_station)).to eq Journey::PENALTY_FARE
+      expect(journey.fare(entry_station, nil)).to eq Journey::PENALTY_FARE
     end
   end
 end
