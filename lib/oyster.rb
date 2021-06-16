@@ -1,10 +1,11 @@
 class Oyster
 
   MAX_BALANCE = 90
-  attr_reader :balance
+  attr_reader :balance, :journey_log
 
-  def initialize
+  def initialize(journey_log = JourneyLog.new)
     @balance = 0
+    @journey_log = journey_log
   end
 
   def top_up(money)
